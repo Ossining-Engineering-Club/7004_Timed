@@ -53,4 +53,5 @@ cs::UsbCamera camera{};
 
   void TestInit() override;
   void TestPeriodic() override;
+		
 };

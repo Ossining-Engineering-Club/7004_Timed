@@ -77,11 +77,13 @@ void Robot::TeleopPeriodic() {
             if (x > 360 || x < -360){
                 myGyro.SetYaw(0);
             }
-        //}
+            if (stick3.GetRawButton(9)){
+                TeleopPeriodic();
+            }
+        }
      }
 
 }
-
 void Robot::TestInit() {}
 void Robot::TestPeriodic() {}
 
