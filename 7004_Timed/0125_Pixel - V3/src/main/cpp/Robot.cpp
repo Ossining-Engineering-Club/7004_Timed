@@ -21,36 +21,34 @@ void Robot::TeleopInit() {
 }
 void Robot::TeleopPeriodic() {
     Wait(2);
-    myGyro.GetYawPitchRoll(gyro);
     myGyro.SetYaw(0);
+    myGyro.GetYawPitchRoll(gyro);
      while(IsOperatorControl() && IsEnabled()) {
          visionlight.Set(frc::Relay::Value::kOn);
 
-        if (stick2.GetRawButton(1)){
-                myGyro.SetYaw(0);
-                ant = (gyro[0]);
-        }
-
          if (stick2.GetRawButton(2)) {
             myGyro.GetYawPitchRoll(gyro);
-           
+            if (stick2.GetRawButton(1)){
+                myGyro.SetYaw(0);
+		ant = gyro[0]
+	    }
+	    else {
+		ant = gyro[0];
+	    }
             while (gyro[0] < ant + .05 && gyro[0] > ant - .05 && stick2.GetRawButton(2)) {
                 m_left.Set(A*stick2.GetY());
                 m_right.Set(x*stick2.GetY());
                 m_updown.Set(.65*stick3.GetY());
             }
-			if (gyro[0] > ant + 0.5) {
+		if (gyro[0] > ant + 0.5) {
                 x = x - .01;
-                m_left.Set(A*stick2.GetY());
+		}
+		else if (gyro[0] < ant - 0.5) {
+		A = A - .01;
+		}
+		m_left.Set(A*stick2.GetY());
                 m_right.Set(x*stick2.GetY());
                 m_updown.Set(.65*stick3.GetY());
-			}
-			else if (gyro[0] < ant - 0.5) {
-				A = A - .01;
-                m_left.Set(A*stick2.GetY());
-                m_right.Set(x*stick2.GetY());
-                m_updown.Set(.65*stick3.GetY());
-			}
          }	
          else {
             m_left.Set(-0.65*stick1.GetY()); //left wheels
