@@ -16,8 +16,8 @@ using namespace frc;
 class Robot : public frc::TimedRobot {
  public:
   //Joysticks
-  Joystick j_left{0};
-  Joystick j_right{1};
+  Joystick j_right{0};
+  Joystick j_left{1};
   Joystick j_lift{2};
 
   //Motors

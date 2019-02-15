@@ -26,26 +26,26 @@ void Robot::TeleopInit() {
 }
 void Robot::TeleopPeriodic() {
     Wait (2);
-    while(IsOperatorControl()) {
+    while (IsOperatorControl()) {
         while(IsOperatorControl() && IsEnabled()) {
 
             sens = (j_lift.GetZ()-1)/2;
             smartDashboard -> PutNumber("Sensitivity: ", sens * -100);
 
-            if(j_left.GetRawButton(2)) {
-                m_left.Set(-sens);
-                m_right.Set(-sens);
-            }
-
-            else if (j_right.GetRawButton(2)) {
+            if (j_left.GetRawButton(2)) { //straight forwards
                 m_left.Set(sens);
                 m_right.Set(sens);
             }
 
+            else if (j_right.GetRawButton(2)) { //straight backwards
+                m_left.Set(-sens);
+                m_right.Set(-sens);
+            }
+
             else {
-                m_left.Set(sens * j_right.GetY());               //when left joystick pushed, rotate left wheels
-                m_right.Set(sens * j_left.GetY());               //when right joystick pushed, rotate right wheels
-                m_lift.Set(0.20 * j_lift.GetY());                //move lift up and down
+                m_left.Set(sens * j_left.GetY()); //rotates left wheels
+                m_right.Set(sens * j_right.GetY()); //rotates right wheels
+                m_lift.Set(0.20 * j_lift.GetY()); //lifts up and down
             }
         }
     }
